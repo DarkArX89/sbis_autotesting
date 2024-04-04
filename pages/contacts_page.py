@@ -14,11 +14,13 @@ class ContactsPage(BasePage):
 
     def should_be_correct_local_region_in_url(self, current_region):
         region = self.browser.current_url
+        print(current_region, region)
         assert current_region in region, 'Local region is incorrect'
 
     def should_be_correct_local_region_in_contacts(self, current_region):
         region = self.browser.find_element(
             *ContactsPageLocators.CURRENT_REGION).text
+        print(current_region, region)
         assert current_region == region, 'Local region is incorrect'
 
     @staticmethod
@@ -41,6 +43,9 @@ class ContactsPage(BasePage):
         chooser.click()
         new_region = self.browser.find_element(
             *ContactsPageLocators.KAMCHATKA_REGION)
+        # self.browser.execute_script(
+        #     'arguments[0].scrollIntoView(true);', new_region)
+        # new_region.click()
         self.browser.execute_script(
-            'return arguments[0].scrollIntoView(true);', new_region)
-        new_region.click()
+            'arguments[0].click();', new_region
+        )
