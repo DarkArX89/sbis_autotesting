@@ -1,9 +1,11 @@
 import time
+import pytest
 
 from pages.home_page import HomePage
 from pages.contacts_page import ContactsPage
 from pages.tensor_page import TensorPage
 from pages.tensor_about_page import TensorAboutPage
+from pages.download_page import DownloadPage
 
 
 link = "https://sbis.ru/"
@@ -53,3 +55,18 @@ def test_guest_scenario_2(browser):
     contacts_page.should_be_correct_local_region_in_contacts(
         kamchatka_region[1])
     contacts_page.should_be_list_of_contacts(kamchatka_region[2])
+
+
+@pytest.mark.skip
+def test_guest_scenario_3(browser):
+    home_page = HomePage(browser, link)
+    home_page.open()
+    home_page.should_be_download_local_version_link()
+    home_page.go_to_download_local_version_page()
+    download_page = DownloadPage(browser, browser.current_url)
+    download_page.open()
+    time.sleep(2)
+    download_page.should_be_plugin_chapter()
+    download_page.go_to_plugin_chapter()
+    download_page.should_be_download_web_setup()
+    download_page.download_web_setup()

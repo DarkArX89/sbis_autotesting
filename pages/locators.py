@@ -3,6 +3,8 @@ from selenium.webdriver.common.by import By
 
 class HomePageLocators():
     CONTACTS = (By.CLASS_NAME, 'sbisru-Header__menu-item-1')
+    DOWNLOAD_LOCAL_VERSION = (
+        By.XPATH, '//a[text()="Скачать локальные версии"]')
 
 
 class ContactsPageLocators():
@@ -32,3 +34,8 @@ class TensorAboutPageLocators():
         '.tensor_ru-About__block3 .tensor_ru-About__block-title'
     )
     PHOTOS_WORKING = (By.CLASS_NAME, 'tensor_ru-About__block3-image')
+
+
+class DownloadPageLocators():
+    PLUGIN = (By.CSS_SELECTOR, '[data-id="plugin"]')
+    DOWNLOAD_WEB_SETUP = (By.XPATH, '//a[text()="Скачать (Exe 8.30 МБ) "]')

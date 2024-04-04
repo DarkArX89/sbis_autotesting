@@ -1,13 +1,19 @@
 import pytest
+import os
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+
+
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def webdriver_chrome_browser(user_language):
     options = Options()
     options.add_experimental_option(
         'prefs', {'intl.accept_languages': user_language})
+    options.add_experimental_option(
+        'prefs', {"download.default_directory": CURRENT_DIR})
     browser = webdriver.Chrome(options=options)
     return browser
 
