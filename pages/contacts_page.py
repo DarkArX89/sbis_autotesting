@@ -1,3 +1,8 @@
+import time
+
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 from .base_page import BasePage
 from .locators import ContactsPageLocators
 
@@ -14,14 +19,13 @@ class ContactsPage(BasePage):
 
     def should_be_correct_local_region_in_url(self, current_region):
         region = self.browser.current_url
-        print(current_region, region)
         assert current_region in region, 'Local region is incorrect'
 
     def should_be_correct_local_region_in_contacts(self, current_region):
-        region = self.browser.find_element(
-            *ContactsPageLocators.CURRENT_REGION).text
-        print(current_region, region)
-        assert current_region == region, 'Local region is incorrect'
+        region = WebDriverWait(self.browser, 10).until(
+            EC.text_to_be_present_in_element(
+                ContactsPageLocators.CURRENT_REGION, current_region))
+        assert region is True, 'Local region is incorrect'
 
     @staticmethod
     def compare_title_and_name(contacts):
@@ -38,14 +42,26 @@ class ContactsPage(BasePage):
         self.compare_title_and_name(contacts_list)
 
     def change_local_region(self):
-        chooser = self.browser.find_element(
-            *ContactsPageLocators.CURRENT_REGION)
-        chooser.click()
-        new_region = self.browser.find_element(
-            *ContactsPageLocators.KAMCHATKA_REGION)
-        # self.browser.execute_script(
-        #     'arguments[0].scrollIntoView(true);', new_region)
-        # new_region.click()
+        '''
+        До изменения формы выбора региона для клика работал следующий код:
+        self.browser.execute_script(
+            'arguments[0].scrollIntoView(true);', new_region)
+        new_region.click()
+        После изменения он был заменён на:
         self.browser.execute_script(
             'arguments[0].click();', new_region
         )
+        '''
+        chooser = self.browser.find_element(
+            *ContactsPageLocators.CURRENT_REGION)
+        current_region = chooser.text
+        chooser.click()
+        new_region = self.browser.find_element(
+            *ContactsPageLocators.KAMCHATKA_REGION)
+        self.browser.execute_script(
+            'arguments[0].click();', new_region
+        )
+        while chooser.text == current_region:
+            chooser = self.browser.find_element(
+                *ContactsPageLocators.CURRENT_REGION)
+            time.sleep(1)

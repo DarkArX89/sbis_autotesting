@@ -1,4 +1,3 @@
-import time
 import pytest
 
 from pages.home_page import HomePage
@@ -45,15 +44,13 @@ def test_guest_scenario_2(browser):
     home_page.go_to_contacts_page()
     contacts_page = ContactsPage(browser, browser.current_url)
     contacts_page.open()
-    time.sleep(2)
-    contacts_page.should_be_correct_local_region_in_url(my_region[0])
     contacts_page.should_be_correct_local_region_in_contacts(my_region[1])
+    contacts_page.should_be_correct_local_region_in_url(my_region[0])
     contacts_page.should_be_list_of_contacts(my_region[2])
     contacts_page.change_local_region()
-    time.sleep(2)
-    contacts_page.should_be_correct_local_region_in_url(kamchatka_region[0])
     contacts_page.should_be_correct_local_region_in_contacts(
         kamchatka_region[1])
+    contacts_page.should_be_correct_local_region_in_url(kamchatka_region[0])
     contacts_page.should_be_list_of_contacts(kamchatka_region[2])
 
 
@@ -65,7 +62,6 @@ def test_guest_scenario_3(browser):
     home_page.go_to_download_local_version_page()
     download_page = DownloadPage(browser, browser.current_url)
     download_page.open()
-    time.sleep(2)
     download_page.should_be_plugin_chapter()
     download_page.go_to_plugin_chapter()
     download_page.should_be_download_web_setup()

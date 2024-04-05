@@ -13,7 +13,8 @@ def webdriver_chrome_browser(user_language):
     options.add_experimental_option(
         'prefs', {'intl.accept_languages': user_language})
     options.add_experimental_option(
-        'prefs', {"download.default_directory": CURRENT_DIR})
+        'prefs', {'download.default_directory': CURRENT_DIR,
+                  'safebrowsing.enabled': True})
     browser = webdriver.Chrome(options=options)
     return browser
 
