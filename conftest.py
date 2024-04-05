@@ -15,6 +15,7 @@ def webdriver_chrome_browser(user_language):
     options.add_experimental_option(
         'prefs', {'download.default_directory': CURRENT_DIR,
                   'safebrowsing.enabled': True})
+    options.add_argument("--headless=new")
     browser = webdriver.Chrome(options=options)
     return browser
 
